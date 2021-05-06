@@ -7,10 +7,14 @@ import { Link, Redirect} from "react-router-dom";
 export default function Sliders() {
   
   const [slider, setSlider] = useState([])
-  
+//   const getData = () =>{
+//      axios.get(`${API_BASE}`)
+//   .then((res)=>setSlider(res.data))
+// }
+
   useEffect(()=>{
     axios.get(`${API_BASE}`)
-    .then((res)=>setSlider(res.data))
+    .then((res)=>setSlider(res.data)) 
   },[])
 
   console.log(slider);
@@ -26,9 +30,8 @@ export default function Sliders() {
           <tr>
             <th>Number</th>
             <th>Title</th>
-            <th>Description</th>
-            <th>Photo</th>
-            <th>Button</th>
+            <th>Visible/Non-Visible</th>
+            <th>Order</th>
             <th>Edit/Delete</th>
           </tr>
           </thead>
@@ -36,19 +39,20 @@ export default function Sliders() {
             <tbody>
               <tr>
               <td>{index+1}</td>
-                <td>{slider.title}</td>
-                <td>{slider.desc}</td>
-                <td>{slider.img_url}</td>
-                <td>{slider.button}</td>
+                <td>{slider.Title}</td>
+                <td>{slider.IsActive}</td>
+                <td>{slider.Order}</td>
+                {/* <td>{slider.button}</td> */}
                 <td>
                   <div className="d-flex">
-                 
+                  <Link to={`${slider.id}`}>
                       <button
                         type="button"
                         className="btn btn-sm btn-success mr-auto gap-3"
                       >
                         Edit
                       </button>
+                    </Link>  
                   
                       <button
                         type="button"
@@ -64,6 +68,12 @@ export default function Sliders() {
             </tbody>
           ))}
         </Table>
+        <div className="text-right mr-4">
+          <Link to={`add/`}>
+            <button className="btn btn-primary">Add New Slider </button>
+          </Link>
+        </div>
+
     </div>
   )
 }

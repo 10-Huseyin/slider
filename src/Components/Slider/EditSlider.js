@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { API_BASE } from '../../config/env';
@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 
 
 
-const AddSlider = () => {
+const EditSlider = (props) => {
   const [Title, setTitle] = useState('');
 	const [SubTitle, setSubTitle] = useState('');
   const [Url, setUrl] = useState('');
@@ -16,33 +16,58 @@ const AddSlider = () => {
 	const [IsDelete, setIsDelete] = useState(false);
 	const [ImageId, setImageId] = useState('');
 	const [IsVideo, setIsVideo] = useState('');
-	const [CreateAt, setCreateAt] =useState(new Date());
-	const [UpdateAt, setUpdateAt] =useState('');
+	const [CreateAt, setCreateAt] =useState();
+	const [UpdateAt, setUpdateAt] =useState(new Date());
 
 
-  const [submit, setSubmit] = useState(false)
+const [submit, setSubmit] = useState(false)
+
+ useEffect(() => {
+	const id = props.match.params.id;
+  axios.get(`${API_BASE}/${id}`)
+		.then((res) =>{ console.log(res.data.Title)
+		setTitle(res.data.Title);
+		setSubTitle(res.data.SubTitle);
+		setUrl(res.data.Url);
+		setButtonText(res.data.ButtonText);
+		setOrder(res.data.Order);
+		setIsActive(res.data.IsActive);
+		setIsDelete(res.data.IsDelete);
+		setImageId(res.data.ImageId);
+		setIsVideo(res.data.IsVideo);
+	
+	
+
+})
+ }, [])
+  
+
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-    axios.post(`${API_BASE}`, {Title, SubTitle, Url, ButtonText, Order, IsActive, IsDelete,ImageId, IsVideo, CreateAt, UpdateAt})
+		const id = props.match.params.id;
+    axios.put(`${API_BASE}/${id}`, {Title, SubTitle, Url, ButtonText, Order, IsActive, IsDelete,ImageId, IsVideo, CreateAt, UpdateAt})
     .then((res) => {console.log(res.data)})
-		setTitle('');
-		setSubTitle('');
-    setUrl('');
-    setButtonText('');
-    setOrder('');
-		setIsActive('');
-		setIsDelete('');
-		setImageId('');
-		setIsVideo('');
+		// setTitle('');
+		// setSubTitle('');
+    // setUrl('');
+    // setButtonText('');
+    // setOrder('');
+		// setIsActive('');
+		// setIsDelete('');
+		// setImageId('');
+		// setIsVideo('');
 		setSubmit(true);
-		setCreateAt('');
-		setUpdateAt('');
+		// setCreateAt('');
+		// setUpdateAt('');
    }
+
+  
+
     return (
 	<div className='container bg-light border border-5 border-primary p-5 text-center'>
       <form onSubmit={onSubmit}>
-			<h1 className='mx-auto'> ADD SLIDER FORM </h1>
+			<h1 className='mx-auto'> EDIT SLIDER FORM </h1>
 			<div className='row d-flex flex-row m-2 pb-3'>
 			<div className='col-4 text-center d-flex flex-column' >
         <label for='Title'>Title:</label>
@@ -132,7 +157,7 @@ const AddSlider = () => {
 					</div>
 					<div className='col-4 text-center'>
 					<button type='submit' className='btn btn-primary mt-4'>
-						ADD SLIDER
+						Edit SLIDER
 					</button>
 					</div>
 				</div>
@@ -143,4 +168,4 @@ const AddSlider = () => {
     )
 }
 
-export default AddSlider;
+export default EditSlider;
