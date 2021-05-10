@@ -7,7 +7,7 @@ import EditSlider from './Components/Slider/EditSlider'
 function App() {
   return (
     <div className="App">
-        APP COMPONENT
+        
         <Route exact path="/" component={Slider} />
         <Route exact path="/add" component={AddSlider} />
         <Route exact strict path="/:id" component={EditSlider} />

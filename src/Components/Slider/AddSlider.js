@@ -18,7 +18,7 @@ const AddSlider = () => {
 	const [IsVideo, setIsVideo] = useState('');
 	const [CreateAt, setCreateAt] =useState(new Date());
 	const [UpdateAt, setUpdateAt] =useState('');
-
+	const [photo, setPhoto] =useState('');
 
   const [submit, setSubmit] = useState(false)
 
@@ -39,6 +39,12 @@ const AddSlider = () => {
 		setCreateAt('');
 		setUpdateAt('');
    }
+	 const getPhoto=(e)=>{
+		console.log(e.target.files[0]);
+			setPhoto(e.target.files[0]);
+	 }
+
+
     return (
 	<div className='container bg-light border border-5 border-primary p-5 text-center'>
       <form onSubmit={onSubmit}>
@@ -67,7 +73,7 @@ const AddSlider = () => {
 					<div className='col-4 text-center d-flex flex-column'>
         <label for='Url'>Url:</label>
 					<input
-						required='required'
+					
 						type='text'
 						id='Url'
 						value={Url}
@@ -97,13 +103,14 @@ const AddSlider = () => {
 					></input>
 					</div>
 					<div className='col-4 text-center d-flex flex-column'>
-				<label for='ImageId'>ImageId:</label>
+				<label for='ImageId'>ImageId:( Add Slider Photo)</label>
 					<input
 						required='required'
-						type='text'
+						type='file'
 						id='ImageId'
 						value={ImageId}
 						onChange={(event) => setImageId(event.target.value)}
+						onChange={getPhoto}
 					></input>
 				</div>
 				</div>

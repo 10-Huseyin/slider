@@ -7,6 +7,8 @@ import { Link, Redirect} from "react-router-dom";
 export default function Sliders() {
   
   const [slider, setSlider] = useState([])
+  const [IsDelete, setIsdelete] = useState({})
+
 //   const getData = () =>{
 //      axios.get(`${API_BASE}`)
 //   .then((res)=>setSlider(res.data))
@@ -18,15 +20,25 @@ export default function Sliders() {
   },[])
 
   console.log(slider);
+//IsDelete set etme mevzusuna bakalım.
+  const handleDelete=(selectedId)=>{
+    const newSliderList = slider.filter((P) => P.id !== selectedId);
+    setSlider(newSliderList)
+    console.log(newSliderList);
+    axios.put(`${API_BASE}/${selectedId}`, {})
+  }
 
-  const handleDelete=()=>{
-
+const onHandleToggleToVisible=()=>{
+  
   }
 
   return (
     <div container m-4>
+        <h2 className="mx-auto"> Sliders and Settings </h2>
       <Table striped bordered hover>
+        
         <thead>
+          
           <tr>
             <th>Number</th>
             <th>Title</th>
@@ -40,7 +52,11 @@ export default function Sliders() {
               <tr>
               <td>{index+1}</td>
                 <td>{slider.Title}</td>
-                <td>{slider.IsActive}</td>
+                <td>
+                  {slider.IsActive==="visible" ? 
+                  <button type="button" class="btn btn-success" onClick={onHandleToggleToVisible}>Visible</button>
+                  :<button type="button" class="btn btn-danger" onClick={onHandleToggleToVisible}>Non-Visible</button>}
+                </td>
                 <td>{slider.Order}</td>
                 {/* <td>{slider.button}</td> */}
                 <td>
